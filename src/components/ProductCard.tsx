@@ -12,6 +12,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       <Image
         src={product.image}
         alt={product.name}
+        width={300}
+        height={200}
         className="w-full h-48 object-cover rounded-md"
       />
       <h2 className="mt-2 text-lg font-semibold">{product.name}</h2>

@@ -14,18 +14,50 @@ export default function AdminPage() {
     description: "",
   });
 
+  const [message, setMessage] = useState<string | null>(null); // Ajout d'un message de confirmation
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Produit ajouté :", product);
+
+    try {
+      const response = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
+
+      if (response.ok) {
+        setMessage("Produit ajouté avec succès !");
+        setProduct({ // Réinitialisation du formulaire après soumission
+          name: "",
+          brand: "",
+          category: "",
+          price: 0,
+          stock: 0,
+          image: "",
+          description: "",
+        });
+      } else {
+        throw new Error("Erreur lors de l'ajout du produit.");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("Une erreur est survenue.");
+    }
   };
 
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-4">Ajouter un produit</h1>
+
+      {message && (
+        <p className="mb-4 p-2 text-white bg-green-500 rounded">{message}</p>
+      )}
+
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded p-6">
         <label className="block mb-2">
           Nom du produit :
