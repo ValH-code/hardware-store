@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const cartCount = useSelector((state: RootState) => state.cart.items.length);
 
   return (
     <nav className="bg-white shadow-md">
@@ -13,26 +14,25 @@ export default function Navbar() {
           🛒 Hardware Store
         </Link>
 
-        <button
-          className="lg:hidden text-gray-700"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          ☰
-        </button>
-
-        <ul
-          className={`lg:flex gap-6 ${
-            isOpen ? "block" : "hidden"
-          } absolute lg:static top-12 left-0 bg-white w-full lg:w-auto p-4 lg:p-0 shadow-lg lg:shadow-none`}
-        >
+        <ul className="flex gap-6">
           <li>
-            <Link href="/products" className="block px-4 py-2 hover:text-blue-600">
+            <Link href="/products" className="hover:text-blue-600">
               Produits
             </Link>
           </li>
           <li>
-            <Link href="/admin" className="block px-4 py-2 hover:text-blue-600">
+            <Link href="/admin" className="hover:text-blue-600">
               Admin
+            </Link>
+          </li>
+          <li>
+            <Link href="/cart" className="hover:text-blue-600">
+              Panier ({cartCount})
+            </Link>
+          </li>
+          <li>
+            <Link href="/orders" className="hover:text-blue-600">
+              Mes Commandes
             </Link>
           </li>
         </ul>

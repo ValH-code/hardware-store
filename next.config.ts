@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**", // ✅ Autorise toutes les sources d’images
+        hostname: "**",
       },
     ],
     unoptimized: true, // Désactive l’optimisation des images pour éviter les erreurs de domaine
